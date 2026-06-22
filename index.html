@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Joyce Chan — Data × Dance</title>
+<meta name="description" content="Portfolio of Joyce Chan: an AI coding internship and research, Scholastic Award–winning art, ABRSM Grade 8 piano, and dance with Orchesis." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF1EF;
+    --panel:#F5E4E1;
+    --ink:#26161F;
+    --body:#4A3741;
+    --blush:#FFC9D4;
+    --rose:#DD3E76;
+    --wine:#7A2342;
+    --line:#E7CDC8;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--body);
+    font-family:"Hanken Grotesk",system-ui,sans-serif;
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--rose);color:var(--paper);}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  /* ---------- type roles ---------- */
+  .mono{font-family:"Space Mono",monospace;}
+  .display{font-family:"Bodoni Moda",Georgia,serif;}
+  .eyebrow{
+    font-family:"Space Mono",monospace;
+    font-size:.72rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--rose);
+    margin:0;
+  }
+  h1,h2,h3{font-family:"Bodoni Moda",Georgia,serif;color:var(--ink);font-weight:500;}
+
+  /* ---------- layout shell ---------- */
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  .section{padding:120px 0;position:relative;}
+  .section + .section{border-top:1px solid var(--line);}
+
+  /* ---------- progress rail (the "data" side) ---------- */
+  .rail{position:fixed;top:0;left:26px;height:100vh;width:1px;background:var(--line);z-index:40;}
+  .rail-fill{position:absolute;top:0;left:0;width:100%;height:0;background:var(--rose);transition:height .08s linear;}
+  .rail-dot{position:fixed;left:23px;width:7px;height:7px;border-radius:50%;background:var(--blush);
+    border:1px solid var(--rose);z-index:41;transform:translateY(-50%);transition:transform .25s ease,background .25s ease;}
+  .rail-dot.on{background:var(--rose);transform:translateY(-50%) scale(1.55);}
+  @media (max-width:980px){.rail,.rail-dot{display:none;}}
+
+  /* ---------- nav ---------- */
+  header.nav{position:fixed;top:0;left:0;right:0;z-index:60;
+    backdrop-filter:saturate(140%) blur(8px);
+    background:color-mix(in srgb,var(--paper) 82%,transparent);
+    border-bottom:1px solid transparent;transition:border-color .3s ease,background .3s ease;}
+  header.nav.scrolled{border-color:var(--line);}
+  .nav-inner{max-width:var(--maxw);margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+  .brand{font-family:"Bodoni Moda",serif;font-size:1.35rem;font-weight:600;color:var(--ink);text-decoration:none;letter-spacing:.01em;}
+  .brand span{color:var(--rose);}
+  .nav-links{display:flex;gap:26px;align-items:center;}
+  .nav-links a{
+    font-family:"Space Mono",monospace;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;
+    text-decoration:none;color:var(--body);position:relative;padding:4px 0;transition:color .2s ease;}
+  .nav-links a .idx{color:var(--rose);margin-right:6px;font-size:.66rem;}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;height:1.5px;width:0;background:var(--rose);transition:width .25s ease;}
+  .nav-links a:hover,.nav-links a.active{color:var(--ink);}
+  .nav-links a.active::after,.nav-links a:hover::after{width:100%;}
+  .nav-cta{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+    text-decoration:none;color:var(--paper);background:var(--ink);padding:9px 16px;border-radius:2px;transition:background .2s ease;}
+  .nav-cta:hover{background:var(--rose);}
+  .burger{display:none;background:none;border:0;cursor:pointer;padding:6px;}
+  .burger span{display:block;width:24px;height:2px;background:var(--ink);margin:5px 0;transition:.3s;}
+  @media (max-width:860px){
+    .nav-links{position:fixed;inset:64px 0 auto 0;flex-direction:column;align-items:flex-start;gap:0;
+      background:var(--paper);border-bottom:1px solid var(--line);padding:8px 28px 20px;
+      transform:translateY(-130%);transition:transform .35s cubic-bezier(.5,0,.2,1);}
+    .nav-links.open{transform:translateY(0);}
+    .nav-links a{padding:14px 0;width:100%;border-bottom:1px solid var(--line);font-size:.85rem;}
+    .nav-cta{display:none;}
+    .burger{display:block;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{min-height:100vh;display:flex;align-items:center;padding:140px 0 80px;position:relative;overflow:hidden;}
+  .hero-grid{display:grid;grid-template-columns:1.55fr .9fr;gap:48px;align-items:center;width:100%;}
+  .hero h1{
+    font-size:clamp(3.4rem,12vw,8.6rem);line-height:.92;margin:.18em 0 .12em;font-weight:600;letter-spacing:-.01em;}
+  .hero h1 em{font-style:italic;font-weight:500;color:var(--rose);}
+  .hero-lead{max-width:30ch;font-size:1.06rem;color:var(--body);margin:18px 0 0;}
+  .hero-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:30px;}
+  .tag{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink);border:1px solid var(--line);background:var(--paper);padding:7px 12px;border-radius:30px;}
+  .tag.fill{background:var(--blush);border-color:var(--blush);}
+
+  /* ribbon (the "dance" side) */
+  .ribbon-stage{position:relative;height:340px;}
+  .ribbon{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+  .ribbon path{fill:none;stroke-linecap:round;}
+  .ribbon .base{stroke:var(--blush);stroke-width:14;opacity:.85;}
+  .ribbon .accent{stroke:var(--rose);stroke-width:3;stroke-dasharray:60 420;
+    animation:travel 5.5s linear infinite;}
+  @keyframes travel{to{stroke-dashoffset:-480;}}
+  .ribbon-cap{position:absolute;font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--wine);}
+
+  /* 8-count pulse */
+  .eights{display:flex;gap:9px;margin-top:34px;align-items:center;}
+  .eights .lbl{font-family:"Space Mono",monospace;font-size:.64rem;letter-spacing:.2em;color:var(--body);text-transform:uppercase;margin-right:6px;}
+  .beat{width:9px;height:9px;border-radius:50%;background:var(--blush);}
+  .beat.lit{animation:beat 4s ease-in-out infinite;}
+  @keyframes beat{0%,100%{background:var(--blush);transform:scale(1);}50%{background:var(--rose);transform:scale(1.5);}}
+
+  /* hero snapshot + CTAs (admissions) */
+  .facts{display:flex;flex-wrap:wrap;gap:28px;margin-top:26px;}
+  .facts div{display:flex;flex-direction:column;gap:2px;}
+  .facts .fk{font-family:"Space Mono",monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);}
+  .facts .fv{font-family:"Bodoni Moda",serif;font-size:1.18rem;color:var(--ink);line-height:1.1;}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;}
+  .btn-primary,.btn-ghost{font-family:"Space Mono",monospace;font-size:.74rem;letter-spacing:.08em;
+    text-transform:uppercase;text-decoration:none;padding:12px 18px;border-radius:3px;transition:.22s ease;}
+  .btn-primary{background:var(--ink);color:var(--paper);}
+  .btn-primary:hover{background:var(--rose);}
+  .btn-ghost{border:1px solid var(--line);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--rose);background:var(--panel);}
+
+  /* honors band */
+  .band{padding:64px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,var(--panel),var(--paper));}
+  .honor-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 48px;margin-top:10px;border-top:1px solid var(--ink);}
+  .honor{display:grid;grid-template-columns:72px 1fr 18px;gap:16px;align-items:center;
+    padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);transition:.2s ease;}
+  a.honor:hover{padding-left:12px;background:color-mix(in srgb,var(--blush) 40%,transparent);}
+  .honor .hy{font-family:"Space Mono",monospace;color:var(--rose);font-size:.74rem;letter-spacing:.04em;}
+  .honor .ht{font-size:1.02rem;color:var(--ink);font-weight:500;}
+  .honor .ht b{font-family:"Bodoni Moda",serif;font-weight:600;}
+  .honor .hgo{font-family:"Space Mono",monospace;color:var(--rose);font-size:.8rem;}
+  @media (max-width:780px){.honor-grid{grid-template-columns:1fr;}}
+
+  /* ---------- generic section heads ---------- */
+  .shead{display:flex;align-items:baseline;gap:18px;margin-bottom:14px;}
+  .snum{font-family:"Space Mono",monospace;font-size:.78rem;letter-spacing:.18em;color:var(--rose);}
+  .skick{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--body);}
+  .stitle{font-size:clamp(2.2rem,6vw,4rem);line-height:1.02;margin:0 0 6px;font-weight:500;letter-spacing:-.01em;}
+  .stitle em{font-style:italic;color:var(--rose);}
+  .lede{font-size:1.12rem;max-width:54ch;color:var(--body);}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;margin-top:40px;align-items:start;}
+  .pull{font-family:"Bodoni Moda",serif;font-style:italic;font-size:clamp(1.7rem,4vw,2.6rem);
+    line-height:1.18;color:var(--ink);border-left:2px solid var(--rose);padding-left:22px;margin:8px 0 0;}
+  .pull small{display:block;font-style:normal;font-family:"Space Mono",monospace;font-size:.66rem;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--rose);margin-top:14px;}
+  .habits{display:grid;gap:0;margin-top:46px;border-top:1px solid var(--line);}
+  .habit{display:grid;grid-template-columns:46px 1fr;gap:22px;padding:26px 0;border-bottom:1px solid var(--line);align-items:start;}
+  .habit .k{font-family:"Bodoni Moda",serif;font-size:1.6rem;color:var(--blush);line-height:1;}
+  .habit h3{font-size:1.18rem;margin:0 0 6px;font-weight:600;}
+  .habit p{margin:0;font-size:.96rem;}
+
+  /* ---------- work ---------- */
+  .worklist{margin-top:40px;border-top:1px solid var(--ink);}
+  .workrow{display:grid;grid-template-columns:54px 1.1fr 1.6fr auto;gap:24px;align-items:center;
+    padding:26px 8px;border-bottom:1px solid var(--line);transition:background .25s ease,padding .25s ease;}
+  .workrow:hover{background:var(--panel);}
+  .workrow .wn{font-family:"Space Mono",monospace;color:var(--rose);font-size:.8rem;}
+  .workrow .wtype{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--wine);}
+  .workrow h3{font-size:1.45rem;margin:4px 0 0;font-weight:500;}
+  .workrow p{margin:0;font-size:.95rem;}
+  .workrow .when{font-family:"Space Mono",monospace;font-size:.74rem;color:var(--body);white-space:nowrap;text-align:right;}
+  .docs{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
+  .doc{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+    font-family:"Space Mono",monospace;font-size:.74rem;letter-spacing:.05em;color:var(--ink);
+    border:1px solid var(--line);background:var(--paper);padding:11px 15px;border-radius:3px;transition:.22s ease;}
+  .doc .arr{color:var(--rose);}
+  .doc:hover{border-color:var(--rose);background:var(--panel);transform:translateY(-2px);}
+
+  /* ---------- arts ---------- */
+  .sub{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--rose);margin:60px 0 18px;display:flex;align-items:center;gap:14px;}
+  .sub::before{content:"";width:26px;height:1px;background:var(--rose);}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;margin-top:8px;}
+  .plate{position:relative;aspect-ratio:4/5;border-radius:4px;overflow:hidden;border:1px solid var(--line);
+    display:flex;align-items:flex-end;padding:16px;color:var(--paper);}
+  .plate::after{content:"";position:absolute;inset:0;mix-blend-mode:multiply;opacity:.92;}
+  .plate .cap{position:relative;z-index:2;font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.06em;}
+  .plate .cap b{display:block;font-family:"Bodoni Moda",serif;font-size:1.05rem;letter-spacing:0;font-weight:500;}
+  .p1{background:linear-gradient(135deg,#3a1626,#7a2342 60%,#dd3e76);}
+  .p2{background:linear-gradient(160deg,#7a2342,#dd3e76 70%,#ffc9d4);}
+  .p3{background:linear-gradient(120deg,#26161f,#7a2342 80%);}
+  .p4{background:linear-gradient(135deg,#241019,#3a1626 55%,#dd3e76);}
+  .p5{background:linear-gradient(150deg,#7a2342,#26161f 70%);}
+  .note{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.04em;color:var(--wine);margin-top:14px;opacity:.8;}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+  .chip{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.04em;color:var(--ink);
+    background:var(--panel);border-radius:20px;padding:7px 13px;}
+  .chip b{color:var(--rose);}
+
+  /* ---------- dance ---------- */
+  .filmstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:36px;}
+  .clip{position:relative;aspect-ratio:9/13;border-radius:4px;overflow:hidden;border:1px solid var(--line);
+    background:linear-gradient(160deg,#2a121d,#7a2342);display:flex;flex-direction:column;justify-content:space-between;padding:14px;}
+  .clip::before{content:"";position:absolute;inset:0;background:
+    repeating-linear-gradient(115deg,transparent 0 22px,rgba(255,201,212,.06) 22px 24px);}
+  .clip .shimmer{position:absolute;top:-60%;left:-30%;width:50%;height:220%;
+    background:linear-gradient(90deg,transparent,rgba(255,201,212,.28),transparent);transform:rotate(8deg);
+    animation:sweep 4.5s ease-in-out infinite;}
+  .clip:nth-child(2) .shimmer{animation-delay:.6s}
+  .clip:nth-child(3) .shimmer{animation-delay:1.2s}
+  .clip:nth-child(4) .shimmer{animation-delay:1.8s}
+  .clip:nth-child(5) .shimmer{animation-delay:2.4s}
+  @keyframes sweep{0%{left:-40%}55%,100%{left:130%}}
+  .clip .ctop{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.16em;color:var(--blush);position:relative;z-index:2;}
+  .clip .cname{font-family:"Bodoni Moda",serif;font-size:1.25rem;color:var(--paper);position:relative;z-index:2;}
+  .dance-two{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:14px;align-items:start;}
+
+  /* ---------- contact ---------- */
+  #contact{background:var(--ink);color:#E9D7DA;border-top:none;}
+  #contact .stitle{color:var(--paper);}
+  #contact .snum{color:var(--blush);}
+  #contact .skick,#contact .lede{color:#D8BFC4;}
+  .conlinks{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:44px;}
+  .conlink{text-decoration:none;border:1px solid #4a3038;border-radius:5px;padding:26px;display:block;
+    transition:.25s ease;background:#2f1b24;}
+  .conlink:hover{background:#3a212c;border-color:var(--rose);transform:translateY(-3px);}
+  .conlink .ck{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blush);}
+  .conlink .cv{font-family:"Bodoni Moda",serif;font-size:1.5rem;color:var(--paper);margin:10px 0 4px;word-break:break-word;}
+  .conlink .cgo{font-family:"Space Mono",monospace;font-size:.72rem;color:var(--rose);}
+  .signoff{font-family:"Bodoni Moda",serif;font-style:italic;font-size:clamp(1.4rem,3.4vw,2.1rem);
+    color:var(--paper);max-width:30ch;margin:54px 0 0;line-height:1.3;}
+  .signoff small{display:block;font-style:normal;font-family:"Space Mono",monospace;font-size:.7rem;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--blush);margin-top:16px;}
+
+  /* ---------- footer ---------- */
+  footer.foot{background:var(--ink);color:#9c8089;border-top:1px solid #3a212c;}
+  .foot-inner{max-width:var(--maxw);margin:0 auto;padding:30px 28px;display:flex;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.06em;}
+  .foot-inner span b{color:var(--blush);}
+
+  /* ---------- reveal ---------- */
+  .rev{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1);}
+  .rev.in{opacity:1;transform:none;}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;gap:30px;}
+    .ribbon-stage{height:200px;order:-1;}
+    .about-grid{grid-template-columns:1fr;gap:34px;}
+    .workrow{grid-template-columns:36px 1fr;gap:10px 16px;}
+    .workrow .wtypewrap{grid-column:2;}
+    .workrow .when{grid-column:2;text-align:left;}
+    .dance-two{grid-template-columns:1fr;gap:30px;}
+    .conlinks{grid-template-columns:1fr;}
+    .section{padding:84px 0;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *{animation:none!important;transition:none!important;}
+    .rev{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="rail"><div class="rail-fill" id="railFill"></div></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#index" class="brand">Joyce<span>.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#index"><span class="idx">00</span>Index</a>
+      <a href="#about"><span class="idx">01</span>About</a>
+      <a href="#work"><span class="idx">02</span>Work</a>
+      <a href="#arts"><span class="idx">03</span>Arts</a>
+      <a href="#dance"><span class="idx">04</span>Dance</a>
+      <a href="#contact"><span class="idx">05</span>Contact</a>
+    </nav>
+    <a class="nav-cta" href="https://joicechan.vercel.app/docs/joyce-chan-resume.docx">Résumé ↓</a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ============ INDEX / HERO ============ -->
+<section class="section hero" id="index">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="rev in">
+        <p class="eyebrow">College Portfolio · Class of 2027 · Arcadia, CA</p>
+        <h1 class="display">Joyce<br>Chan<em>.</em></h1>
+        <p class="hero-lead">A junior at Arcadia High applying to study <span style="color:var(--rose);font-weight:600">data science</span> — joining the rigor of code and research with the discipline of a dancer who counts in eights.</p>
+        <div class="facts">
+          <div><span class="fk">Class</span><span class="fv">2027</span></div>
+          <div><span class="fk">School</span><span class="fv">Arcadia High</span></div>
+          <div><span class="fk">GPA · W / UW</span><span class="fv">3.94 / 3.73</span></div>
+          <div><span class="fk">Intended major</span><span class="fv">Data Science</span></div>
+        </div>
+        <div class="hero-cta">
+          <a class="btn-primary" href="https://joicechan.vercel.app/docs/joyce-chan-resume.docx">Résumé ↓</a>
+          <a class="btn-ghost" href="https://joicechan.vercel.app/docs/literature-review.pdf">Read my research ↗</a>
+        </div>
+        <div class="hero-meta">
+          <span class="tag fill">Data</span>
+          <span class="tag">Code</span>
+          <span class="tag fill">Art</span>
+          <span class="tag">Dance</span>
+        </div>
+        <div class="eights" aria-hidden="true">
+          <span class="lbl">count</span>
+          <span class="beat lit" style="animation-delay:0s"></span>
+          <span class="beat lit" style="animation-delay:.5s"></span>
+          <span class="beat lit" style="animation-delay:1s"></span>
+          <span class="beat lit" style="animation-delay:1.5s"></span>
+          <span class="beat lit" style="animation-delay:2s"></span>
+          <span class="beat lit" style="animation-delay:2.5s"></span>
+          <span class="beat lit" style="animation-delay:3s"></span>
+          <span class="beat lit" style="animation-delay:3.5s"></span>
+        </div>
+      </div>
+      <div class="ribbon-stage rev in">
+        <svg class="ribbon" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <path class="base" d="M20 40 C 120 -10, 90 150, 200 150 S 300 300, 230 320 S 60 280, 120 200 S 250 120, 150 70" />
+          <path class="accent" d="M20 40 C 120 -10, 90 150, 200 150 S 300 300, 230 320 S 60 280, 120 200 S 250 120, 150 70" />
+        </svg>
+        <span class="ribbon-cap" style="top:8px;right:14px;">data × dance</span>
+        <span class="ribbon-cap" style="bottom:6px;left:6px;">always in motion</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HONORS BAND ============ -->
+<section class="band" id="honors">
+  <div class="wrap">
+    <div class="shead rev"><span class="snum">★</span><span class="skick">Selected honors &amp; highlights</span></div>
+    <div class="honor-grid rev">
+      <div class="honor">
+        <span class="hy">GPA</span><span class="ht"><b>3.94</b> weighted · <b>3.73</b> unweighted</span><span class="hgo"></span></div>
+      <a class="honor" href="https://joicechan.vercel.app/art/silver-key-2026.pdf">
+        <span class="hy">2026</span><span class="ht">Scholastic Art Awards — <b>Silver Key</b></span><span class="hgo">↗</span></a>
+      <div class="honor">
+        <span class="hy">10+ AP</span><span class="ht">AP courses across STEM, humanities &amp; art — <b>several self-studied</b></span><span class="hgo"></span></div>
+      <div class="honor">
+        <span class="hy">2025–27</span><span class="ht">AI Coding Intern — <b>Alpha Infinity</b> (Nova SAT)</span><span class="hgo"></span></div>
+      <div class="honor">
+        <span class="hy">Dual-enroll</span><span class="ht">5 Pasadena City College courses — <b>all A</b></span><span class="hgo"></span></div>
+      <a class="honor" href="https://joicechan.vercel.app/docs/literature-review.pdf">
+        <span class="hy">Research</span><span class="ht">Lit. review — <b>AI &amp; Student Learning</b></span><span class="hgo">↗</span></a>
+      <a class="honor" href="https://joicechan.vercel.app/music/piano-grade-8.pdf">
+        <span class="hy">ABRSM</span><span class="ht">Piano <b>Grade 8</b> — Merit</span><span class="hgo">↗</span></a>
+      <div class="honor">
+        <span class="hy">Lead</span><span class="ht">Drill-team choreographer — <b>1st-place</b> wins</span><span class="hgo"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="shead rev"><span class="snum">01</span><span class="skick">Who / Why</span></div>
+    <h2 class="stitle display rev">Where logic <em>learns to dance.</em></h2>
+    <div class="about-grid">
+      <div class="rev">
+        <p class="lede">I grew up in Arcadia, drawn early to creative movement — and, just as early, to math and problem-solving. I didn't formally start dancing until freshman year, but the pull toward both the analytical and the expressive has never let up.</p>
+        <p>That curiosity became coding and data science on one side, and the studio on the other — and I've stopped treating them as separate. Dance taught me to practice something until it's clean; research taught me to question what "clean" even means. I bring both to every problem I take on.</p>
+        <blockquote class="pull display">"Work hard, play harder."
+          <small>— operating principle</small>
+        </blockquote>
+      </div>
+      <div class="rev">
+        <div class="habits">
+          <div class="habit"><span class="k display">A</span><div><h3>Making art</h3><p>Collage, screenprint, and stitched paper — mixed-media work recognized in the Scholastic Art & Writing Awards.</p></div></div>
+          <div class="habit"><span class="k display">B</span><div><h3>Music at the keys</h3><p>Nine years of piano to ABRSM Grade 8, plus producing original tracks as a recording artist on BandLab.</p></div></div>
+          <div class="habit"><span class="k display">C</span><div><h3>Volunteering</h3><p>Reading to the animals at Pasadena Humane Society and organizing resources for Habitat for Humanity.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK ============ -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="shead rev"><span class="snum">02</span><span class="skick">Research / Data / Code</span></div>
+    <h2 class="stitle display rev">Still a student, <em>already building.</em></h2>
+    <p class="lede rev">An AI coding internship, a research review, and college CS credits — I learn by making real things on the way toward data science.</p>
+
+    <div class="worklist rev">
+      <div class="workrow">
+        <span class="wn mono">01</span>
+        <div class="wtypewrap"><span class="wtype">Internship</span><h3 class="display">Nova SAT — AI Coding</h3></div>
+        <p>At Alpha Infinity I help build AI coding for a Nova SAT prep platform — applying CS skills in a real professional setting.</p>
+        <span class="when">2025–2027</span>
+      </div>
+      <div class="workrow">
+        <span class="wn mono">02</span>
+        <div class="wtypewrap"><span class="wtype">Research</span><h3 class="display">AI &amp; Education</h3></div>
+        <p>A literature review on how AI shapes student learning and critical thinking. It taught me to read between the citations.</p>
+        <span class="when">Lit. review</span>
+      </div>
+      <div class="workrow">
+        <span class="wn mono">03</span>
+        <div class="wtypewrap"><span class="wtype">Competition</span><h3 class="display">App Design</h3></div>
+        <p>Coded and designed a competitive app entry with peers — problem-solving and programming under contest conditions.</p>
+        <span class="when">2024</span>
+      </div>
+      <div class="workrow">
+        <span class="wn mono">04</span>
+        <div class="wtypewrap"><span class="wtype">Academics</span><h3 class="display">Rigor, early &amp; often</h3></div>
+        <p>AP Computer Science A &amp; Principles plus 10+ APs across math, science, humanities, and art — several self-studied — and five Pasadena City College courses, every grade an A.</p>
+        <span class="when">AP + Dual-enroll</span>
+      </div>
+    </div>
+
+    <p class="sub">Why data science</p>
+    <div class="rev">
+      <p>I'm drawn to data science because I like turning noisy reality into something a person can actually read and act on. My research on AI in education showed me how much careful, data-driven work sits behind any honest claim — and that's the work I want to keep doing in college and after.</p>
+    </div>
+
+    <p class="sub">Papers &amp; certificates</p>
+    <div class="docs rev">
+      <a class="doc" href="https://joicechan.vercel.app/docs/literature-review.pdf">AI &amp; Student Learning <span class="arr">↗</span></a>
+      <a class="doc" href="https://joicechan.vercel.app/cs/programming-1.pdf">Computer Programming 1 <span class="arr">↗</span></a>
+      <a class="doc" href="https://joicechan.vercel.app/cs/programming-2-java.pdf">Programming 2 · Java <span class="arr">↗</span></a>
+      <a class="doc" href="https://joicechan.vercel.app/cs/programming-advanced.pdf">Programming, Advanced <span class="arr">↗</span></a>
+    </div>
+    <p class="sub">Toolkit &amp; languages</p>
+    <div class="rev">
+      <div class="chips">
+        <span class="chip"><b>Code</b> Python</span>
+        <span class="chip"><b>Code</b> Java</span>
+        <span class="chip"><b>Build</b> App design</span>
+        <span class="chip"><b>Build</b> AI coding</span>
+        <span class="chip"><b>Make</b> Music production · BandLab</span>
+      </div>
+      <div class="chips" style="margin-top:10px">
+        <span class="chip"><b>Lang</b> English</span>
+        <span class="chip"><b>Lang</b> Spanish · AP</span>
+        <span class="chip"><b>Lang</b> Mandarin</span>
+        <span class="chip"><b>Lang</b> Korean · self-taught</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARTS ============ -->
+<section class="section" id="arts">
+  <div class="wrap">
+    <div class="shead rev"><span class="snum">03</span><span class="skick">Eye / Ear / Spirit</span></div>
+    <h2 class="stitle display rev">Made by hand, <em>heard by heart.</em></h2>
+    <p class="lede rev">Outside the keyboard and the studio I make things — visual art, music, and the loud, full-hearted craft of cheer.</p>
+
+    <p class="sub">A / Visual Art — Scholastic Art Awards</p>
+    <div class="rev">
+      <p>Mixed media: collage, projection, screenprint, and stitched paper. Recognized with a <b style="color:var(--rose)">Silver Key (2026)</b> and an <b style="color:var(--rose)">Honorable Mention (2025)</b>.</p>
+      <div class="gallery">
+        <div class="plate p1"><span class="cap">01<b>Torn Portrait</b></span></div>
+        <div class="plate p2"><span class="cap">02<b>Return Address</b></span></div>
+        <div class="plate p3"><span class="cap">03<b>Underpass Aviary</b></span></div>
+        <div class="plate p4"><span class="cap">04<b>Night Crow</b></span></div>
+        <div class="plate p5"><span class="cap">05<b>Freight &amp; Thread</b></span></div>
+      </div>
+      <p class="note">↳ Plates shown as redesign placeholders — swap in the real scans from /art/.</p>
+      <div class="docs">
+        <a class="doc" href="https://joicechan.vercel.app/art/selected-works.pdf">Selected Works <span class="arr">↗</span></a>
+        <a class="doc" href="https://joicechan.vercel.app/art/fly-with-me.pdf">Fly With Me · Statement <span class="arr">↗</span></a>
+        <a class="doc" href="https://joicechan.vercel.app/art/silver-key-2026.pdf">Silver Key · 2026 <span class="arr">↗</span></a>
+      </div>
+    </div>
+
+    <p class="sub">B / Music — Piano &amp; Production</p>
+    <div class="rev">
+      <p>I studied piano from 2014 to 2023, finishing ABRSM Grade 8 with merit. These days I keep composing — producing original tracks on BandLab.</p>
+      <div class="chips">
+        <span class="chip"><b>ABRSM</b> Piano Grade 8 · Merit</span>
+        <span class="chip"><b>ABRSM</b> Music Theory Grade 5</span>
+        <span class="chip"><b>BandLab</b> Original production</span>
+      </div>
+    </div>
+
+    <p class="sub">C / Spirit — Arcadia Pep Squad · Song, 2024–25</p>
+    <div class="rev">
+      <p>On the Arcadia High Pep Squad (Song) I performed at games and spirit events and helped fundraise for the team — 20+ hours a week, full-out, every Friday night.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DANCE ============ -->
+<section class="section" id="dance">
+  <div class="wrap">
+    <div class="shead rev"><span class="snum">04</span><span class="skick">Reel / Motion · Orchesis</span></div>
+    <h2 class="stitle display rev">Counting <em>in eights.</em></h2>
+    <div class="dance-two">
+      <div class="rev">
+        <p class="lede">I began dancing at fourteen, in Beginning Dance, and found a way to express emotion and connect with music. By sophomore year I'd advanced to Intermediate; now, as a junior in Orchesis Dance Company, I give 20+ hours a week to jazz, hip-hop, and contemporary.</p>
+        <p>Training built discipline and a deeper sense of self-expression; performing built confidence. The company has grown me not just as a dancer but as a person — on a team that genuinely fosters creativity.</p>
+      </div>
+      <div class="rev">
+        <p class="sub" style="margin-top:0">I teach it, too</p>
+        <p>Choreography and instruction are where dance turns into leadership for me. I'm a paid choreographer for the <b>Foothills Middle School Drill Team</b>, building routines that placed first at multiple competitions — running lesson planning and rehearsal structure on my own. I also serve as an <b>academic mentor in the AHS dance department</b> (a step above a typical TA, 5 hrs/week) and teach <b>private youth classes</b> 6 hrs/week, where students I coached earned spots on selective cheer teams.</p>
+      </div>
+    </div>
+
+    <p class="sub">On stage</p>
+    <div class="filmstrip rev">
+      <div class="clip"><span class="shimmer"></span><span class="ctop">01</span><span class="cname">Orchesis</span></div>
+      <div class="clip"><span class="shimmer"></span><span class="ctop">02</span><span class="cname">Contemporary</span></div>
+      <div class="clip"><span class="shimmer"></span><span class="ctop">03</span><span class="cname">Jazz</span></div>
+      <div class="clip"><span class="shimmer"></span><span class="ctop">04</span><span class="cname">Hip-Hop</span></div>
+      <div class="clip"><span class="shimmer"></span><span class="ctop">05</span><span class="cname">Studio</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="shead rev"><span class="snum">05</span><span class="skick">Mail / Gram</span></div>
+    <h2 class="stitle display rev">Let's <em>connect.</em></h2>
+    <p class="lede rev">Want to talk data science, swap research notes, or just say hi? I'd love to hear from you.</p>
+    <div class="conlinks rev">
+      <a class="conlink" href="mailto:joycechan003@gmail.com">
+        <span class="ck">A / Email</span>
+        <span class="cv">joycechan003@gmail.com</span>
+        <span class="cgo">Open mail client →</span>
+      </a>
+      <a class="conlink" href="https://instagram.com/_chanjoyce">
+        <span class="ck">B / Instagram</span>
+        <span class="cv">@_chanjoyce</span>
+        <span class="cgo">Open in new tab →</span>
+      </a>
+    </div>
+    <blockquote class="signoff display rev">"Thanks for taking the time to learn a little about me — don't be a stranger."
+      <small>— Joyce</small>
+    </blockquote>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <span>© 2026 Joyce Chan</span>
+    <span>Arcadia, CA · 34.13°N / 118.04°W</span>
+    <span><b>#FFC0CB</b> — always in motion</span>
+  </div>
+</footer>
+
+<script>
+  // nav scrolled state
+  const nav = document.getElementById('nav');
+  const railFill = document.getElementById('railFill');
+  const sections = [...document.querySelectorAll('section.section')];
+  const links = [...document.querySelectorAll('.nav-links a')];
+
+  // build rail dots
+  const dots = sections.map((s,i)=>{
+    const d=document.createElement('div'); d.className='rail-dot'; document.body.appendChild(d); return d;
+  });
+  function placeDots(){
+    const docH=document.documentElement.scrollHeight - window.innerHeight;
+    sections.forEach((s,i)=>{
+      const center=s.offsetTop + s.offsetHeight/2;
+      const pct=Math.min(1,Math.max(0,(s.offsetTop)/(docH||1)));
+      dots[i].style.top=(pct*100)+'vh';
+    });
+  }
+  function onScroll(){
+    const y=window.scrollY;
+    nav.classList.toggle('scrolled', y>20);
+    const docH=document.documentElement.scrollHeight - window.innerHeight;
+    const p=Math.min(1,Math.max(0,y/(docH||1)));
+    railFill.style.height=(p*100)+'%';
+    // active section
+    let active=0;
+    sections.forEach((s,i)=>{ if(y >= s.offsetTop-180) active=i; });
+    links.forEach((l,i)=>l.classList.toggle('active',i===active));
+    dots.forEach((d,i)=>d.classList.toggle('on',i===active));
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',()=>{placeDots();onScroll();});
+
+  // reveal on scroll
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+
+  // mobile menu
+  const burger=document.getElementById('burger');
+  const navLinks=document.getElementById('navLinks');
+  burger.addEventListener('click',()=>{
+    const open=navLinks.classList.toggle('open');
+    burger.setAttribute('aria-expanded',open);
+  });
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    navLinks.classList.remove('open'); burger.setAttribute('aria-expanded',false);
+  }));
+
+  // external links open in new tab
+  document.querySelectorAll('a[href^="http"]').forEach(a=>{a.target='_blank';a.rel='noopener';});
+
+  placeDots(); onScroll();
+  window.addEventListener('load',()=>{placeDots();onScroll();});
+</script>
+</body>
+</html>
