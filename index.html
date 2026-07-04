@@ -10,14 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#FBF1EF;
-    --panel:#F5E4E1;
-    --ink:#26161F;
-    --body:#4A3741;
-    --blush:#FFC9D4;
-    --rose:#DD3E76;
-    --wine:#7A2342;
-    --line:#E7CDC8;
+    --paper:#FFFDF4;
+    --panel:#FBF3D2;
+    --ink:#3D3416;
+    --body:#6B5D2E;
+    --blush:#FFE9A3;
+    --rose:#C99A00;
+    --wine:#8A6D14;
+    --line:#EFE3B4;
     --maxw:1180px;
   }
   *{box-sizing:border-box;}
@@ -197,11 +197,11 @@
   .plate::after{content:"";position:absolute;inset:0;mix-blend-mode:multiply;opacity:.92;}
   .plate .cap{position:relative;z-index:2;font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.06em;}
   .plate .cap b{display:block;font-family:"Bodoni Moda",serif;font-size:1.05rem;letter-spacing:0;font-weight:500;}
-  .p1{background:linear-gradient(135deg,#3a1626,#7a2342 60%,#dd3e76);}
-  .p2{background:linear-gradient(160deg,#7a2342,#dd3e76 70%,#ffc9d4);}
-  .p3{background:linear-gradient(120deg,#26161f,#7a2342 80%);}
-  .p4{background:linear-gradient(135deg,#241019,#3a1626 55%,#dd3e76);}
-  .p5{background:linear-gradient(150deg,#7a2342,#26161f 70%);}
+  .p1{background:linear-gradient(135deg,#5c4a10,#8a6d14 60%,#d9b23a);}
+  .p2{background:linear-gradient(160deg,#8a6d14,#c99a00 70%,#ffe9a3);}
+  .p3{background:linear-gradient(120deg,#3d3416,#8a6d14 80%);}
+  .p4{background:linear-gradient(135deg,#413813,#5c4a10 55%,#d9a520);}
+  .p5{background:linear-gradient(150deg,#8a6d14,#3d3416 70%);}
   .note{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.04em;color:var(--wine);margin-top:14px;opacity:.8;}
   .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
   .chip{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.04em;color:var(--ink);
@@ -211,11 +211,11 @@
   /* ---------- dance ---------- */
   .filmstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:36px;}
   .clip{position:relative;aspect-ratio:9/13;border-radius:4px;overflow:hidden;border:1px solid var(--line);
-    background:linear-gradient(160deg,#2a121d,#7a2342);display:flex;flex-direction:column;justify-content:space-between;padding:14px;}
+    background:linear-gradient(160deg,#3d3416,#8a6d14);display:flex;flex-direction:column;justify-content:space-between;padding:14px;}
   .clip::before{content:"";position:absolute;inset:0;background:
-    repeating-linear-gradient(115deg,transparent 0 22px,rgba(255,201,212,.06) 22px 24px);}
+    repeating-linear-gradient(115deg,transparent 0 22px,rgba(255,240,180,.08) 22px 24px);}
   .clip .shimmer{position:absolute;top:-60%;left:-30%;width:50%;height:220%;
-    background:linear-gradient(90deg,transparent,rgba(255,201,212,.28),transparent);transform:rotate(8deg);
+    background:linear-gradient(90deg,transparent,rgba(255,240,180,.30),transparent);transform:rotate(8deg);
     animation:sweep 4.5s ease-in-out infinite;}
   .clip:nth-child(2) .shimmer{animation-delay:.6s}
   .clip:nth-child(3) .shimmer{animation-delay:1.2s}
@@ -227,14 +227,14 @@
   .dance-two{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:14px;align-items:start;}
 
   /* ---------- contact ---------- */
-  #contact{background:var(--ink);color:#E9D7DA;border-top:none;}
+  #contact{background:var(--ink);color:#F1E8C4;border-top:none;}
   #contact .stitle{color:var(--paper);}
   #contact .snum{color:var(--blush);}
-  #contact .skick,#contact .lede{color:#D8BFC4;}
+  #contact .skick,#contact .lede{color:#DED09A;}
   .conlinks{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:44px;}
-  .conlink{text-decoration:none;border:1px solid #4a3038;border-radius:5px;padding:26px;display:block;
-    transition:.25s ease;background:#2f1b24;}
-  .conlink:hover{background:#3a212c;border-color:var(--rose);transform:translateY(-3px);}
+  .conlink{text-decoration:none;border:1px solid #5c4f24;border-radius:5px;padding:26px;display:block;
+    transition:.25s ease;background:#2f2910;}
+  .conlink:hover{background:#3a3216;border-color:var(--rose);transform:translateY(-3px);}
   .conlink .ck{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blush);}
   .conlink .cv{font-family:"Bodoni Moda",serif;font-size:1.5rem;color:var(--paper);margin:10px 0 4px;word-break:break-word;}
   .conlink .cgo{font-family:"Space Mono",monospace;font-size:.72rem;color:var(--rose);}
@@ -244,7 +244,7 @@
     letter-spacing:.18em;text-transform:uppercase;color:var(--blush);margin-top:16px;}
 
   /* ---------- footer ---------- */
-  footer.foot{background:var(--ink);color:#9c8089;border-top:1px solid #3a212c;}
+  footer.foot{background:var(--ink);color:#9c9159;border-top:1px solid #3a3216;}
   .foot-inner{max-width:var(--maxw);margin:0 auto;padding:30px 28px;display:flex;justify-content:space-between;
     gap:16px;flex-wrap:wrap;font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.06em;}
   .foot-inner span b{color:var(--blush);}
@@ -286,7 +286,7 @@
       <a href="#dance"><span class="idx">04</span>Dance</a>
       <a href="#contact"><span class="idx">05</span>Contact</a>
     </nav>
-    <a class="nav-cta" href="https://joicechan.vercel.app/docs/joyce-chan-resume.docx">Résumé ↓</a>
+    <a class="nav-cta" href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fjoicechan.vercel.app%2Fdocs%2Fjoyce-chan-resume.docx">Résumé ↗</a>
     <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -306,7 +306,7 @@
           <div><span class="fk">Intended major</span><span class="fv">Data Science</span></div>
         </div>
         <div class="hero-cta">
-          <a class="btn-primary" href="https://joicechan.vercel.app/docs/joyce-chan-resume.docx">Résumé ↓</a>
+          <a class="btn-primary" href="https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fjoicechan.vercel.app%2Fdocs%2Fjoyce-chan-resume.docx">Résumé ↗</a>
           <a class="btn-ghost" href="https://joicechan.vercel.app/docs/literature-review.pdf">Read my research ↗</a>
         </div>
         <div class="hero-meta">
@@ -351,7 +351,7 @@
       <div class="honor">
         <span class="hy">10+ AP</span><span class="ht">AP courses across STEM, humanities &amp; art — <b>several self-studied</b></span><span class="hgo"></span></div>
       <div class="honor">
-        <span class="hy">2025–27</span><span class="ht">AI Coding Intern — <b>Alpha Infinity</b> (Nova SAT)</span><span class="hgo"></span></div>
+        <span class="hy">2025–27</span><span class="ht">AI Coding Intern — <b>Alpha Infinity</b> (Alpha SAT)</span><span class="hgo"></span></div>
       <div class="honor">
         <span class="hy">Dual-enroll</span><span class="ht">5 Pasadena City College courses — <b>all A</b></span><span class="hgo"></span></div>
       <a class="honor" href="https://joicechan.vercel.app/docs/literature-review.pdf">
@@ -398,8 +398,8 @@
     <div class="worklist rev">
       <div class="workrow">
         <span class="wn mono">01</span>
-        <div class="wtypewrap"><span class="wtype">Internship</span><h3 class="display">Nova SAT — AI Coding</h3></div>
-        <p>At Alpha Infinity I help build AI coding for a Nova SAT prep platform — applying CS skills in a real professional setting.</p>
+        <div class="wtypewrap"><span class="wtype">Internship</span><h3 class="display">Alpha SAT — AI Coding</h3></div>
+        <p>At Alpha Infinity I help build AI coding for an Alpha SAT prep platform — applying CS skills in a real professional setting.</p>
         <span class="when">2025–2027</span>
       </div>
       <div class="workrow">
@@ -550,7 +550,7 @@
   <div class="foot-inner">
     <span>© 2026 Joyce Chan</span>
     <span>Arcadia, CA · 34.13°N / 118.04°W</span>
-    <span><b>#FFC0CB</b> — always in motion</span>
+    <span><b>#FFE9A3</b> — always in motion</span>
   </div>
 </footer>
 
