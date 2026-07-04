@@ -178,6 +178,9 @@
   .workrow .wn{font-family:"Space Mono",monospace;color:var(--rose);font-size:.8rem;}
   .workrow .wtype{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--wine);}
   .workrow h3{font-size:1.45rem;margin:4px 0 0;font-weight:500;}
+  .workrow h3 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line);transition:border-color .22s ease;}
+  .workrow h3 a:hover{border-color:var(--rose);}
+  .workrow h3 a .arr{color:var(--rose);font-size:.85em;}
   .workrow p{margin:0;font-size:.95rem;}
   .workrow .when{font-family:"Space Mono",monospace;font-size:.74rem;color:var(--body);white-space:nowrap;text-align:right;}
   .docs{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
@@ -191,17 +194,22 @@
   .sub{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
     color:var(--rose);margin:60px 0 18px;display:flex;align-items:center;gap:14px;}
   .sub::before{content:"";width:26px;height:1px;background:var(--rose);}
-  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;margin-top:8px;}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px;margin-top:8px;}
   .plate{position:relative;aspect-ratio:4/5;border-radius:4px;overflow:hidden;border:1px solid var(--line);
     display:flex;align-items:flex-end;padding:16px;color:var(--paper);}
   .plate::after{content:"";position:absolute;inset:0;mix-blend-mode:multiply;opacity:.92;}
   .plate .cap{position:relative;z-index:2;font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.06em;}
   .plate .cap b{display:block;font-family:"Bodoni Moda",serif;font-size:1.05rem;letter-spacing:0;font-weight:500;}
+  /* when a real image is present, show it whole (not cropped) at its natural ratio */
+  .plate:has(img){aspect-ratio:auto;display:block;padding:0;background:#efece4;}
+  .plate:has(img) .cap{position:absolute;left:16px;bottom:13px;}
   .p1{background:linear-gradient(135deg,#5c4a10,#8a6d14 60%,#d9b23a);}
   .p2{background:linear-gradient(160deg,#8a6d14,#c99a00 70%,#ffe9a3);}
   .p3{background:linear-gradient(120deg,#3d3416,#8a6d14 80%);}
   .p4{background:linear-gradient(135deg,#413813,#5c4a10 55%,#d9a520);}
   .p5{background:linear-gradient(150deg,#8a6d14,#3d3416 70%);}
+  .plate img{display:block;width:100%;height:auto;position:relative;z-index:0;}
+  .plate:has(img)::after{background:linear-gradient(to top,rgba(20,12,0,.62),rgba(20,12,0,0) 32%);mix-blend-mode:normal;opacity:1;z-index:1;}
   .note{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.04em;color:var(--wine);margin-top:14px;opacity:.8;}
   .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
   .chip{font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.04em;color:var(--ink);
@@ -224,6 +232,39 @@
   @keyframes sweep{0%{left:-40%}55%,100%{left:130%}}
   .clip .ctop{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.16em;color:var(--blush);position:relative;z-index:2;}
   .clip .cname{font-family:"Bodoni Moda",serif;font-size:1.25rem;color:var(--paper);position:relative;z-index:2;}
+  .clip video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;}
+  .clip:has(video)::before{background:linear-gradient(to top,rgba(20,12,0,.55),rgba(20,12,0,0) 45%);}
+  .clip:has(video) .shimmer{display:none;}
+  /* folder cards */
+  .clip.folder{cursor:pointer;text-align:left;font:inherit;color:var(--paper);appearance:none;
+    transition:transform .25s ease, box-shadow .25s ease;
+    box-shadow:5px 5px 0 -1px rgba(61,52,22,.5), 10px 10px 0 -2px rgba(61,52,22,.28);}
+  .clip.folder:hover{transform:translateY(-3px);
+    box-shadow:7px 9px 0 -1px rgba(61,52,22,.55), 14px 18px 0 -2px rgba(61,52,22,.30), 0 16px 30px rgba(60,40,0,.25);}
+  .clip.folder:focus-visible{outline:2px solid var(--rose);outline-offset:3px;}
+  .fcount{position:absolute;top:12px;right:12px;z-index:3;font-family:"Space Mono",monospace;
+    font-size:.58rem;letter-spacing:.1em;background:rgba(20,12,0,.5);color:var(--paper);
+    padding:4px 9px;border-radius:20px;}
+  .fbottom{position:relative;z-index:2;display:block;}
+  .fhint{display:block;margin-top:6px;font-family:"Space Mono",monospace;font-size:.6rem;
+    letter-spacing:.12em;color:var(--blush);opacity:0;transform:translateY(4px);transition:.25s ease;}
+  .clip.folder:hover .fhint,.clip.folder:focus-visible .fhint{opacity:1;transform:none;}
+  /* video modal */
+  .vmodal{position:fixed;inset:0;z-index:1000;display:none;}
+  .vmodal.open{display:block;}
+  .vmodal-scrim{position:absolute;inset:0;background:rgba(30,20,0,.62);backdrop-filter:blur(4px);}
+  .vmodal-panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:min(1040px,92vw);max-height:88vh;overflow:auto;background:var(--paper);
+    border:1px solid var(--line);border-radius:12px;padding:34px;box-shadow:0 30px 80px rgba(40,25,0,.4);}
+  .vmodal-x{position:absolute;top:16px;right:16px;border:1px solid var(--line);background:var(--panel);
+    width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1rem;color:var(--ink);line-height:1;transition:.2s ease;}
+  .vmodal-x:hover{border-color:var(--rose);color:var(--rose);}
+  .vmodal-kicker{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);}
+  .vmodal-title{font-size:2rem;margin:4px 0 24px;font-weight:500;}
+  .vmodal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;}
+  .vitem video{width:100%;height:auto;max-height:70vh;border-radius:7px;background:#000;border:1px solid var(--line);display:block;}
+  .vitem figcaption{font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.04em;color:var(--body);margin-top:11px;}
+  .vempty{font-family:"Space Mono",monospace;font-size:.82rem;color:var(--wine);padding:12px 0 4px;}
   .dance-two{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:14px;align-items:start;}
 
   /* ---------- contact ---------- */
@@ -302,7 +343,7 @@
         <div class="facts">
           <div><span class="fk">Class</span><span class="fv">2027</span></div>
           <div><span class="fk">School</span><span class="fv">Arcadia High</span></div>
-          <div><span class="fk">GPA · W / UW</span><span class="fv">3.94 / 3.73</span></div>
+          <div><span class="fk">GPA</span><span class="fv">3.94</span></div>
           <div><span class="fk">Intended major</span><span class="fv">Data Science</span></div>
         </div>
         <div class="hero-cta">
@@ -345,7 +386,7 @@
     <div class="shead rev"><span class="snum">★</span><span class="skick">Selected honors &amp; highlights</span></div>
     <div class="honor-grid rev">
       <div class="honor">
-        <span class="hy">GPA</span><span class="ht"><b>3.94</b> weighted · <b>3.73</b> unweighted</span><span class="hgo"></span></div>
+        <span class="hy">GPA</span><span class="ht"><b>3.94</b></span><span class="hgo"></span></div>
       <a class="honor" href="https://joicechan.vercel.app/art/silver-key-2026.pdf">
         <span class="hy">2026</span><span class="ht">Scholastic Art Awards — <b>Silver Key</b></span><span class="hgo">↗</span></a>
       <div class="honor">
@@ -353,7 +394,7 @@
       <div class="honor">
         <span class="hy">2025–27</span><span class="ht">AI Coding Intern — <b>Alpha Infinity</b> (Alpha SAT)</span><span class="hgo"></span></div>
       <div class="honor">
-        <span class="hy">Dual-enroll</span><span class="ht">5 Pasadena City College courses — <b>all A</b></span><span class="hgo"></span></div>
+        <span class="hy">Dual-enroll</span><span class="ht">4 Pasadena City College courses — <b>all A</b></span><span class="hgo"></span></div>
       <a class="honor" href="https://joicechan.vercel.app/docs/literature-review.pdf">
         <span class="hy">Research</span><span class="ht">Lit. review — <b>AI &amp; Student Learning</b></span><span class="hgo">↗</span></a>
       <a class="honor" href="https://joicechan.vercel.app/music/piano-grade-8.pdf">
@@ -393,31 +434,37 @@
   <div class="wrap">
     <div class="shead rev"><span class="snum">02</span><span class="skick">Research / Data / Code</span></div>
     <h2 class="stitle display rev">Still a student, <em>already building.</em></h2>
-    <p class="lede rev">An AI coding internship, a research review, and college CS credits — I learn by making real things on the way toward data science.</p>
+    <p class="lede rev">A nonprofit I founded, an AI coding internship, a research review, and college CS credits — I learn by making real things on the way toward data science.</p>
 
     <div class="worklist rev">
       <div class="workrow">
         <span class="wn mono">01</span>
+        <div class="wtypewrap"><span class="wtype">Founder · Nonprofit</span><h3 class="display"><a href="https://joycechan0.github.io/team-up-together-website/" target="_blank" rel="noopener">Team Up Together <span class="arr">↗</span></a></h3></div>
+        <p>I founded Team Up Together, a nonprofit built to bring people together through shared purpose and community action.</p>
+        <span class="when">Founder</span>
+      </div>
+      <div class="workrow">
+        <span class="wn mono">02</span>
         <div class="wtypewrap"><span class="wtype">Internship</span><h3 class="display">Alpha SAT — AI Coding</h3></div>
         <p>At Alpha Infinity I help build AI coding for an Alpha SAT prep platform — applying CS skills in a real professional setting.</p>
         <span class="when">2025–2027</span>
       </div>
       <div class="workrow">
-        <span class="wn mono">02</span>
+        <span class="wn mono">03</span>
         <div class="wtypewrap"><span class="wtype">Research</span><h3 class="display">AI &amp; Education</h3></div>
         <p>A literature review on how AI shapes student learning and critical thinking. It taught me to read between the citations.</p>
         <span class="when">Lit. review</span>
       </div>
       <div class="workrow">
-        <span class="wn mono">03</span>
+        <span class="wn mono">04</span>
         <div class="wtypewrap"><span class="wtype">Competition</span><h3 class="display">App Design</h3></div>
         <p>Coded and designed a competitive app entry with peers — problem-solving and programming under contest conditions.</p>
         <span class="when">2024</span>
       </div>
       <div class="workrow">
-        <span class="wn mono">04</span>
+        <span class="wn mono">05</span>
         <div class="wtypewrap"><span class="wtype">Academics</span><h3 class="display">Rigor, early &amp; often</h3></div>
-        <p>AP Computer Science A &amp; Principles plus 10+ APs across math, science, humanities, and art — several self-studied — and five Pasadena City College courses, every grade an A.</p>
+        <p>AP Computer Science A &amp; Principles plus 10+ APs across math, science, humanities, and art — several self-studied — and four Pasadena City College courses, every grade an A.</p>
         <span class="when">AP + Dual-enroll</span>
       </div>
     </div>
@@ -464,13 +511,12 @@
     <div class="rev">
       <p>Mixed media: collage, projection, screenprint, and stitched paper. Recognized with a <b style="color:var(--rose)">Silver Key (2026)</b> and an <b style="color:var(--rose)">Honorable Mention (2025)</b>.</p>
       <div class="gallery">
-        <div class="plate p1"><span class="cap">01<b>Torn Portrait</b></span></div>
-        <div class="plate p2"><span class="cap">02<b>Return Address</b></span></div>
-        <div class="plate p3"><span class="cap">03<b>Underpass Aviary</b></span></div>
-        <div class="plate p4"><span class="cap">04<b>Night Crow</b></span></div>
-        <div class="plate p5"><span class="cap">05<b>Freight &amp; Thread</b></span></div>
+        <div class="plate p1"><img src="assets/art/01.png" alt="Torn Portrait" loading="lazy" onerror="this.remove()"><span class="cap">01<b>Torn Portrait</b></span></div>
+        <div class="plate p2"><img src="assets/art/02.png" alt="Return Address" loading="lazy" onerror="this.remove()"><span class="cap">02<b>Return Address</b></span></div>
+        <div class="plate p3"><img src="assets/art/03.png" alt="Underpass Aviary" loading="lazy" onerror="this.remove()"><span class="cap">03<b>Underpass Aviary</b></span></div>
+        <div class="plate p4"><img src="assets/art/04.png" alt="Night Crow" loading="lazy" onerror="this.remove()"><span class="cap">04<b>Night Crow</b></span></div>
+        <div class="plate p5"><img src="assets/art/05.png" alt="Freight &amp; Thread" loading="lazy" onerror="this.remove()"><span class="cap">05<b>Freight &amp; Thread</b></span></div>
       </div>
-      <p class="note">↳ Plates shown as redesign placeholders — swap in the real scans from /art/.</p>
       <div class="docs">
         <a class="doc" href="https://joicechan.vercel.app/art/selected-works.pdf">Selected Works <span class="arr">↗</span></a>
         <a class="doc" href="https://joicechan.vercel.app/art/fly-with-me.pdf">Fly With Me · Statement <span class="arr">↗</span></a>
@@ -512,12 +558,11 @@
     </div>
 
     <p class="sub">On stage</p>
+    <p class="note" style="margin-bottom:14px">↳ Tap a folder to open its clips.</p>
     <div class="filmstrip rev">
-      <div class="clip"><span class="shimmer"></span><span class="ctop">01</span><span class="cname">Orchesis</span></div>
-      <div class="clip"><span class="shimmer"></span><span class="ctop">02</span><span class="cname">Contemporary</span></div>
-      <div class="clip"><span class="shimmer"></span><span class="ctop">03</span><span class="cname">Jazz</span></div>
-      <div class="clip"><span class="shimmer"></span><span class="ctop">04</span><span class="cname">Hip-Hop</span></div>
-      <div class="clip"><span class="shimmer"></span><span class="ctop">05</span><span class="cname">Studio</span></div>
+      <button class="clip folder" type="button" data-folder="orchesis"><span class="shimmer"></span><span class="fcount"></span><span class="ctop">01</span><span class="fbottom"><span class="cname">Orchesis</span><span class="fhint">Open folder →</span></span></button>
+      <button class="clip folder" type="button" data-folder="choreography"><span class="shimmer"></span><span class="fcount"></span><span class="ctop">02</span><span class="fbottom"><span class="cname">Choreography</span><span class="fhint">Open folder →</span></span></button>
+      <button class="clip folder" type="button" data-folder="pepsquad"><span class="shimmer"></span><span class="fcount"></span><span class="ctop">03</span><span class="fbottom"><span class="cname">Pep Squad</span><span class="fhint">Open folder →</span></span></button>
     </div>
   </div>
 </section>
@@ -553,6 +598,17 @@
     <span><b>#FFE9A3</b> — always in motion</span>
   </div>
 </footer>
+
+<!-- ============ VIDEO FOLDER MODAL ============ -->
+<div class="vmodal" id="vmodal" aria-hidden="true">
+  <div class="vmodal-scrim" data-close></div>
+  <div class="vmodal-panel" role="dialog" aria-modal="true" aria-labelledby="vmodalTitle">
+    <button class="vmodal-x" type="button" data-close aria-label="Close">✕</button>
+    <span class="vmodal-kicker">Dance · Reel</span>
+    <h3 class="vmodal-title display" id="vmodalTitle"></h3>
+    <div class="vmodal-grid"></div>
+  </div>
+</div>
 
 <script>
   // nav scrolled state
@@ -607,6 +663,55 @@
 
   // external links open in new tab
   document.querySelectorAll('a[href^="http"]').forEach(a=>{a.target='_blank';a.rel='noopener';});
+
+  // dance video folders
+  const danceFolders={
+    orchesis:{videos:[
+      {src:'assets/dance/orchesis/homecoming-assembly-2025.mp4',name:'Homecoming Assembly 2025'},
+      {src:'assets/dance/orchesis/winter-pep-assembly-2025.mp4',name:'Winter Pep Assembly 2025'}
+    ]},
+    choreography:{videos:[
+      {src:'assets/dance/choreography/foothills-drill-team-choreography.mp4',name:'Foothills Drill Team Choreography'}
+    ]},
+    pepsquad:{videos:[
+      {src:'assets/dance/pepsquad/spring-preview-2024.mp4',name:'Spring Preview 2024'}
+    ]}
+  };
+  const vmodal=document.getElementById('vmodal');
+  const vgrid=vmodal.querySelector('.vmodal-grid');
+  const vtitle=document.getElementById('vmodalTitle');
+  function openFolder(key,label){
+    const f=danceFolders[key]||{videos:[]};
+    vtitle.textContent=label;
+    vgrid.innerHTML='';
+    if(!f.videos.length){
+      vgrid.innerHTML='<p class="vempty">Clips coming soon.</p>';
+    }else{
+      f.videos.forEach(v=>{
+        const fig=document.createElement('figure');
+        fig.className='vitem';
+        const vid=document.createElement('video');
+        vid.src=v.src; vid.controls=true; vid.playsInline=true; vid.preload='metadata';
+        const cap=document.createElement('figcaption'); cap.textContent=v.name;
+        fig.appendChild(vid); fig.appendChild(cap); vgrid.appendChild(fig);
+      });
+    }
+    vmodal.classList.add('open'); vmodal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeFolder(){
+    vgrid.querySelectorAll('video').forEach(v=>v.pause());
+    vmodal.classList.remove('open'); vmodal.setAttribute('aria-hidden','true');
+    vgrid.innerHTML=''; document.body.style.overflow='';
+  }
+  document.querySelectorAll('.clip.folder').forEach(c=>{
+    const n=(danceFolders[c.dataset.folder]||{videos:[]}).videos.length;
+    const badge=c.querySelector('.fcount');
+    if(badge) badge.textContent = n ? (n+(n>1?' clips':' clip')) : 'Coming soon';
+    c.addEventListener('click',()=>openFolder(c.dataset.folder,c.querySelector('.cname').textContent));
+  });
+  vmodal.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click',closeFolder));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&vmodal.classList.contains('open'))closeFolder();});
 
   placeDots(); onScroll();
   window.addEventListener('load',()=>{placeDots();onScroll();});
